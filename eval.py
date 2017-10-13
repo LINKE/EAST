@@ -6,12 +6,15 @@ import numpy as np
 import tensorflow as tf
 
 import locality_aware_nms as nms_locality
-import lanms
+# import lanms
 
-tf.app.flags.DEFINE_string('test_data_path', '/tmp/ch4_test_images/images/', '')
+# tf.app.flags.DEFINE_string('test_data_path', '/tmp/ch4_test_images/images/', '')
+tf.app.flags.DEFINE_string('test_data_path', os.path.join(os.path.dirname(__file__), 'data/test'), '')
 tf.app.flags.DEFINE_string('gpu_list', '0', '')
-tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_icdar2015_resnet_v1_50_rbox/', '')
-tf.app.flags.DEFINE_string('output_dir', '/tmp/ch4_test_images/images/', '')
+# tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_icdar2015_resnet_v1_50_rbox/', '')
+tf.app.flags.DEFINE_string('checkpoint_path', os.path.join(os.path.dirname(__file__), 'data/east_icdar2015_resnet_v1_50_rbox'), '')
+# tf.app.flags.DEFINE_string('output_dir', '/tmp/ch4_test_images/images/', '')
+tf.app.flags.DEFINE_string('output_dir', os.path.join(os.path.dirname(__file__), 'data/output'), '')
 tf.app.flags.DEFINE_bool('no_write_images', False, 'do not write images')
 
 import model
@@ -94,8 +97,8 @@ def detect(score_map, geo_map, timer, score_map_thresh=0.8, box_thresh=0.1, nms_
     timer['restore'] = time.time() - start
     # nms part
     start = time.time()
-    # boxes = nms_locality.nms_locality(boxes.astype(np.float64), nms_thres)
-    boxes = lanms.merge_quadrangle_n9(boxes.astype('float32'), nms_thres)
+    boxes = nms_locality.nms_locality(boxes.astype(np.float64), nms_thres)
+    # boxes = lanms.merge_quadrangle_n9(boxes.astype('float32'), nms_thres)
     timer['nms'] = time.time() - start
 
     if boxes.shape[0] == 0:

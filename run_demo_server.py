@@ -38,7 +38,7 @@ def get_predictor(checkpoint_path):
     import tensorflow as tf
     import model
     from icdar import restore_rectangle
-    import lanms
+    # import lanms
     from eval import resize_image, sort_poly, detect
 
     input_images = tf.placeholder(tf.float32, shape=[None, None, None, 3], name='input_images')
@@ -146,7 +146,8 @@ import argparse
 
 
 class Config:
-    SAVE_DIR = 'static/results'
+    #SAVE_DIR = 'static/results'
+    SAVE_DIR = os.path.join(os.path.dirname(__file__), 'static/results')
 
 
 config = Config()
@@ -191,8 +192,8 @@ def save_result(img, rst):
 
 
 
-checkpoint_path = './east_icdar2015_resnet_v1_50_rbox'
-
+# checkpoint_path = './east_icdar2015_resnet_v1_50_rbox'
+checkpoint_path = os.path.join(os.path.dirname(__file__), 'data/east_icdar2015_resnet_v1_50_rbox')
 
 @app.route('/', methods=['POST'])
 def index_post():
