@@ -4,20 +4,20 @@ import numpy as np
 import tensorflow as tf
 from tensorflow.contrib import slim
 
-tf.app.flags.DEFINE_integer('input_size', 512, '')
-tf.app.flags.DEFINE_integer('batch_size_per_gpu', 14, '')
-tf.app.flags.DEFINE_integer('num_readers', 16, '')
+tf.app.flags.DEFINE_integer('input_size', 512, '') #512
+tf.app.flags.DEFINE_integer('batch_size_per_gpu', 14, '') #14
+tf.app.flags.DEFINE_integer('num_readers', 2, '') #16
 tf.app.flags.DEFINE_float('learning_rate', 0.0001, '')
-tf.app.flags.DEFINE_integer('max_steps', 100000, '')
+tf.app.flags.DEFINE_integer('max_steps', 100, '') #100000
 tf.app.flags.DEFINE_float('moving_average_decay', 0.997, '')
-tf.app.flags.DEFINE_string('gpu_list', '1', '')
-# tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_resnet_v1_50_rbox/', '')
-tf.app.flags.DEFINE_string('checkpoint_path', os.path.join(os.path.dirname(__file__), 'data/checkpoint'), '')
-tf.app.flags.DEFINE_boolean('restore', False, 'whether to resotre from checkpoint')
-tf.app.flags.DEFINE_integer('save_checkpoint_steps', 1000, '')
+tf.app.flags.DEFINE_string('gpu_list', '0', '')
+tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_icdar2015_resnet_v1_50_rbox/', '')
+# tf.app.flags.DEFINE_string('checkpoint_path', os.path.join(os.path.dirname(__file__), 'data/checkpoint'), '')
+tf.app.flags.DEFINE_boolean('restore', True, 'whether to resotre from checkpoint')
+tf.app.flags.DEFINE_integer('save_checkpoint_steps', 100, '') #1000
 tf.app.flags.DEFINE_integer('save_summary_steps', 100, '')
-# tf.app.flags.DEFINE_string('pretrained_model_path', None, '')
-tf.app.flags.DEFINE_string('pretrained_model_path', os.path.join(os.path.dirname(__file__), 'data/resnet_v1_50.ckpt'), '')
+tf.app.flags.DEFINE_string('pretrained_model_path', '/tmp/resnet_v1_50.ckpt', '')
+# tf.app.flags.DEFINE_string('pretrained_model_path', os.path.join(os.path.dirname(__file__), 'data/resnet_v1_50.ckpt'), '')
 
 import model
 import icdar
@@ -154,6 +154,8 @@ def main(argv=None):
         start = time.time()
         for step in range(FLAGS.max_steps):
             data = next(data_generator)
+            print(step, data)
+
             ml, tl, _ = sess.run([model_loss, total_loss, train_op], feed_dict={input_images: data[0],
                                                                                 input_score_maps: data[2],
                                                                                 input_geo_maps: data[3],
