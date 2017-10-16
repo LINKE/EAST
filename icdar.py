@@ -16,8 +16,10 @@ from data_util import GeneratorEnqueuer
 
 # tf.app.flags.DEFINE_string('training_data_path', '/data/ocr/icdar2015/',
 #                            'training dataset to use')
-tf.app.flags.DEFINE_string('training_data_path', os.path.join(os.path.dirname(__file__), 'data/train'),
+tf.app.flags.DEFINE_string('training_data_path', os.path.join(os.path.dirname(__file__), 'data/train/'),
                            'training dataset to use')
+# tf.app.flags.DEFINE_string('labels_data_path', '',
+#                            'labels dataset to use')
 tf.app.flags.DEFINE_integer('max_image_large_side', 1280,
                             'max image size of training')
 tf.app.flags.DEFINE_integer('max_text_size', 800,
@@ -722,7 +724,7 @@ def generator(input_size=512, batch_size=32,
 
 def get_batch(num_workers, **kwargs):
     try:
-        enqueuer = GeneratorEnqueuer(generator(**kwargs), use_multiprocessing=True)
+        enqueuer = GeneratorEnqueuer(generator(**kwargs), use_multiprocessing=True) #True
         enqueuer.start(max_queue_size=24, workers=num_workers)
         generator_output = None
         while True:
@@ -739,6 +741,9 @@ def get_batch(num_workers, **kwargs):
             enqueuer.stop()
 
 
+def main():
+    aa = get_batch(num_workers=1)
+    print('')
 
 if __name__ == '__main__':
-    pass
+    main()
