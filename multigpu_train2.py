@@ -8,17 +8,17 @@ tf.app.flags.DEFINE_integer('input_size', 512, '') #512
 tf.app.flags.DEFINE_integer('batch_size_per_gpu', 10, '') #14
 tf.app.flags.DEFINE_integer('num_readers', 24, '') #16
 tf.app.flags.DEFINE_float('learning_rate', 0.0001, '')
-tf.app.flags.DEFINE_integer('max_steps', 1001, '') #100000
+tf.app.flags.DEFINE_integer('max_steps', 100001, '') #100000
 tf.app.flags.DEFINE_float('moving_average_decay', 0.997, '')
-tf.app.flags.DEFINE_string('gpu_list', '0', '') #0,1
-# tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_icdar2015_resnet_v1_50_rbox/', '')
-tf.app.flags.DEFINE_string('checkpoint_path', os.path.join(os.path.dirname(__file__), 'data/ckpt/'), '')
-tf.app.flags.DEFINE_boolean('restore', False, 'whether to resotre from checkpoint')
-tf.app.flags.DEFINE_integer('save_checkpoint_steps', 500, '') #1000
+tf.app.flags.DEFINE_string('gpu_list', '1', '') #0,1
+tf.app.flags.DEFINE_string('checkpoint_path', '/tmp/east_icdar2015_resnet_v1_50_rbox/', '')
+# tf.app.flags.DEFINE_string('checkpoint_path', os.path.join(os.path.dirname(__file__), 'data/ckpt/'), '')
+tf.app.flags.DEFINE_boolean('restore', True, 'whether to resotre from checkpoint')
+tf.app.flags.DEFINE_integer('save_checkpoint_steps', 1000, '') #1000
 tf.app.flags.DEFINE_integer('save_summary_steps', 100, '')
 # tf.app.flags.DEFINE_string('pretrained_model_path', None, '')
-# tf.app.flags.DEFINE_string('pretrained_model_path', '/tmp/resnet_v1_50.ckpt', '')
-tf.app.flags.DEFINE_string('pretrained_model_path', os.path.join(os.path.dirname(__file__), 'data/resnet_v1_50.ckpt'), '')
+tf.app.flags.DEFINE_string('pretrained_model_path', '/tmp/resnet_v1_50.ckpt', '')
+# tf.app.flags.DEFINE_string('pretrained_model_path', os.path.join(os.path.dirname(__file__), 'data/resnet_v1_50.ckpt'), '')
 
 import model
 import icdar
